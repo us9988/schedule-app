@@ -1,34 +1,37 @@
 package com.example.scheduler.ui
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.scheduler.R
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.scheduler.data.Schedule
-import com.example.scheduler.ui.theme.BaseGreen
+import com.example.scheduler.viewmodel.HomeViewModel
+import timber.log.Timber
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun SampleScreen(title: String) {
@@ -46,126 +49,133 @@ fun SampleScreen(title: String) {
     }
 }
 
+// 색상 정의 (이미지 기반)
+val LightGreen = Color(0xFFC8E6C9) // 오늘의 할 일 카드 배경
+val DarkGreen = Color(0xFF4CAF50)  // 프로그레스 바
+val LightGray = Color(0xFFDCDCDC)  // 마감일 카드 배경
+val TextGray = Color(0xFF555555)   // 보조 텍스트
+
 @Composable
-fun HomeScreen() {
-    MySchedules()
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+    val schedules by viewModel.schedules.collectAsStateWithLifecycle()
+    val upcomingSchedules = remember(schedules) {
+        val todayStartMillis = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+//        Timber.e("1: $todayStartMillis")
+//        val startIndex = schedules.binarySearch { schedule ->
+//            if (schedule.date >= todayStartMillis) 0 else -1
+//        }
+//        Timber.e("2: $startIndex")
+//        val firstIndex = if (startIndex < 0) -startIndex - 1 else startIndex
+//        if (firstIndex >= schedules.size || schedules[firstIndex].date < todayStartMillis) {
+//            return@remember emptyList()
+//        }
+//        // 찾은 시작 인덱스로부터 최대 5개의 일정을 가져옵니다.
+//        val endIndex = (firstIndex + 5).coerceAtMost(schedules.size)
+//        schedules.subList(firstIndex, endIndex)
+
+        val fiveDaysLater = todayStartMillis + TimeUnit.DAYS.toMillis(5)
+
+        schedules.filter { schedule ->
+            // 스케줄의 날짜가 오늘과 5일 후 사이에 있는지 확인합니다.
+            schedule.date in todayStartMillis..<fiveDaysLater
+        }
+    }
+    Timber.e("$upcomingSchedules")
+//    schedules.isNotEmpty() {
+//
+//    }
+    ScheduleList(upcomingSchedules)
 
 }
 
 @Composable
-fun ScheduleListItem(
-    data: Schedule,
-    modifier: Modifier = Modifier // 외부에서 Modifier를 전달받을 수 있도록 추가
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { /* 아이템 전체 클릭 이벤트 (필요하다면) */ }
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // 1. 왼쪽: 색상을 수정할 수 있는 동그란 작은 원
+fun ScheduleList(schedules: List<Schedule>) {
+    if (schedules.isEmpty()) {
         Box(
             modifier = Modifier
-                .size(12.dp) // 원의 크기
-                .clip(CircleShape) // 원 모양으로 클리핑
-//                .clickable { onColorChange(itemData) } // 원 클릭 시 색상 변경
+                .fillMaxSize()
+                .padding(top = 50.dp), // 화면 상단에 약간의 여백을 줌
+            contentAlignment = Alignment.TopCenter
         ) {
-            val circleColor = if (data.isImportant) Color.Red else BaseGreen
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                drawCircle(color = circleColor)
-            }
+            Text(
+                text = "다가오는 일정이 없습니다.",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        // 2. 중앙: 위아래로 텍스트
+    } else {
         Column(
-            modifier = Modifier.weight(1f) // 남은 공간을 모두 차지하도록
-        ) {
-            Text(
-                text = data.title,
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = data.description,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.tertiary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-
-            )
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        // 3. 오른쪽: 날짜 텍스트
-        Text(
-            text = data.date,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.tertiary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
-
-@Composable
-fun MySchedules(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .padding(horizontal = 10.dp, vertical = 10.dp)
-    ) {
-        // 1. "일정" 제목
-        Text(
-            text = stringResource(R.string.home_schedule), // "일정" (strings.xml에 정의되어 있다고 가정)
-            // 만약 없다면 그냥 "일정" 문자열 사용
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,// 좀 더 큰 제목 스타일
-            // fontSize = 24.sp, // 또는 직접 크기 지정
             modifier = Modifier
-                .fillMaxWidth() // 너비를 꽉 채워서 왼쪽 정렬 효과 (기본값)
-        )
-
-        LazyColumn {
-            items(
-                items = sampleListData,
-                key = { itemData -> itemData.id } // (선택 사항) 각 아이템에 고유 키를 제공하면 성능 최적화에 도움
-            ) { itemData ->
-                ScheduleListItem(
-                    data = itemData,
-                )
+                .fillMaxSize()
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()) // 폼이 길어질 경우 스크롤
+        ) {
+            schedules.forEachIndexed { i, it ->
+                if (i > 0 && it.date == schedules[i - 1].date) {
+                    TaskCard(it, LightGreen)
+                } else {
+                    Text(
+                        modifier = Modifier.padding(bottom = 5.dp),
+                        text = if (isTimestampToday(it.date)) "오늘 일정" else convertMillisToDate(it.date),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    TaskCard(it, LightGreen)
+                }
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
-            // 단일 아이템을 추가하는 다른 방법들:
-            // item { TextListItem(icon = Icons.Filled.Info, title = "고정된 첫 번째 아이템", description = "설명") }
-            // items(count = 5) { index ->
-            //     TextListItem(icon = Icons.Filled.Info, title = "인덱스 아이템 ${index + 1}", description = "인덱스로 생성된 아이템")
-            // }
+        }
+    }
+}
+
+// --- 카드 아이템 컴포저블 ---
+
+@Composable
+fun TaskCard(schedule: Schedule, color: Color) {
+    // Card 대신 Surface 사용 (M3와 호환성 좋음)
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = color, // 카드 배경색
+    ) {
+        Column(
+            modifier = Modifier.padding(6.dp)
+        ) {
+            Text(
+                text = schedule.title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = schedule.description,
+                fontSize = 14.sp,
+                color = TextGray
+            )
         }
     }
 
+
 }
 
+private fun isTimestampToday(timestampMillis: Long): Boolean {
+    // 시스템 기본 시간대 (예: Asia/Seoul)
+    val zoneId = ZoneId.systemDefault()
 
-@androidx.compose.ui.tooling.preview.Preview(showBackground = true, name = "Home Content Preview")
-@Composable
-fun HomeContentPreview() {
-    // 만약 HomeContent가 특정 테마에 의존한다면,
-    // 여기서 해당 테마로 감싸주는 것이 좋습니다.
-    // 예: YourAppTheme { HomeContent() }
-    // 현재는 MaterialTheme을 내부에서 사용하므로 바로 호출해도 괜찮을 수 있습니다.
-    HomeScreen()
-}
+    // 1. 오늘 날짜 구하기
+    val today = LocalDate.now(zoneId)
 
-val sampleListData = List(20) { index ->
-    Schedule(
-        id = index.toLong(),
-        date = "20${index + 1}년 1월 1일",
-        title = "아이템 제목 ${index + 1}",
-        description = "20${index + 1}에 대한 설명입니다. 충분히 길게 작성하여 여러 줄을 차지하도록 합니다.",
-        isImportant = index % 3 == 0
-    )
+    // 2. 타임스탬프를 날짜로 변환하기
+    val timestampDate = Instant.ofEpochMilli(timestampMillis)
+        .atZone(zoneId)
+        .toLocalDate()
+
+    // 3. 두 날짜가 같은지 비교
+    return today == timestampDate
 }
