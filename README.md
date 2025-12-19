@@ -7,15 +7,15 @@
 ![Compose](https://img.shields.io/badge/Jetpack%20Compose-1.10.1-4285F4?style=flat&logo=jetpackcompose&logoColor=white)
 
 ## 📱 Screenshots
-| light | 일정 추가 | 알림 설정 | dark |
-|:---:|:---:|:---:|:---:|
-| <img src="이미지주소1" width="200"/> | <img src="이미지주소2" width="200"/> | <img src="이미지주소3" width="200"/> | <img src="이미지주소4" width="200"/> |
+| light | dark |
+|:---:|:---:|
+| <img src="https://github.com/user-attachments/assets/08480a05-65f9-4768-88f7-0216eecf31ac" width="200"/> | <img src="https://github.com/user-attachments/assets/d28f4ece-bc17-4c02-87a1-fc1f4b02077d" width="200"/> |  |
 
 ## ✨ Key Features
-* **간편한 일정 등록:**
-* **오늘 일정 푸시 알림:** 
-* **캘린더 뷰:** 월별 일정을 한눈에 파악할 수 있는 직관적인 UI를 제공합니다.
-* **다크 모드 지원:** 눈의 피로를 줄여주는 다크 테마를 완벽 지원합니다.
+* **간편한 일정 등록**
+* **오늘 일정 푸시 알림** 
+* **캘린더 뷰**
+* **다크 모드 지원**
 
 ## 🛠 Tech Stack
 
