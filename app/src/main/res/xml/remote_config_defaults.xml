@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>def_schedule</key>
+        <value>[{"id":"default1","time":"00:00","title":"기본 일정","description":"기본 일정입니다."}]</value>
+    </entry>
+</defaultsMap>

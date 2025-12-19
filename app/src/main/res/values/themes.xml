@@ -2,4 +2,13 @@
 <resources>
 
     <style name="Theme.Scheduler" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- 스플래시 화면 배경색 -->
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <!-- 스플래시 화면 중앙에 표시할 아이콘 (보통 앱 아이콘) -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_wrapper</item>
+        <!-- 스플래시 화면이 끝난 후 적용될 기본 앱 테마 -->
+        <item name="postSplashScreenTheme">@style/Theme.Scheduler</item>
+    </style>
 </resources>
