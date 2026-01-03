@@ -12,12 +12,13 @@ android {
     namespace = "com.usnine.scheduler"
     compileSdk = 36
 
+    // 버전코드는 업로드 시 +1
     defaultConfig {
         applicationId = "com.usnine.scheduler"
         minSdk = 28
         targetSdk = 36
-        versionCode = 10001
-        versionName = "1.0"
+        versionCode = 10002
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
