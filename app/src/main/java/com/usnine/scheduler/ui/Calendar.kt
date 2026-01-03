@@ -66,8 +66,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.usnine.scheduler.R
 import com.usnine.scheduler.data.Schedule
 import com.usnine.scheduler.data.localDate
-import com.usnine.scheduler.ui.theme.PrimaryLight
-import com.usnine.scheduler.ui.theme.SecondaryLight
 import com.usnine.scheduler.util.HorizontalDivider
 import com.usnine.scheduler.util.Text
 import com.usnine.scheduler.viewmodel.CalendarViewModel
@@ -89,7 +87,6 @@ fun CalendarScreen(
             contract = ActivityResultContracts.RequestPermission(),
             onResult = {}
         )
-        // Composable이 처음 로드될 때 권한 요청
         LaunchedEffect(Unit) {
             launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
@@ -232,7 +229,8 @@ fun CalendarView(
                 }
             }
         }
-        HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         )
         val selectedDaySchedules by remember(schedulesByDate, selectedDate) {
             derivedStateOf {
@@ -352,7 +350,7 @@ fun CalendarDayCell(
                 text = date.dayOfMonth.toString(),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color =  MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onSurface,
                 lineHeight = 18.sp
             )
 
@@ -385,7 +383,7 @@ fun CalendarHeader() {
                     .weight(1f)
                     .padding(vertical = 8.dp),
                 fontWeight = FontWeight.Bold,
-                color =  MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )

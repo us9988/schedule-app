@@ -79,7 +79,7 @@ fun AddScheduleView(
             .toEpochMilli()
     }
     var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+    var content by remember { mutableStateOf("") }
     var selectedDate by remember { mutableStateOf<Long?>(initialDateInMillis) }
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
@@ -128,8 +128,8 @@ fun AddScheduleView(
             FormTitle(R.string.add_screen_content_text)
             FormTextField(
                 label = stringResource(R.string.add_screen_content_text),
-                value = description,
-                onValueChange = { description = it },
+                value = content,
+                onValueChange = { content = it },
                 placeholder = stringResource(R.string.add_screen_content_placeholder)
             )
             FormTitle(R.string.add_screen_date_text)
@@ -143,7 +143,7 @@ fun AddScheduleView(
             val failMessage = stringResource(R.string.snackbar_add_schedule_cancel)
             Button(
                 onClick = {
-                    val addSchedule = viewModel.addNewSchedule(title, description, selectedDate)
+                    val addSchedule = viewModel.addNewSchedule(title, content, selectedDate)
                     if (addSchedule) {
                         scope.launch {
                             snackbarHostState.showSnackbar(successMessage)
