@@ -7,7 +7,7 @@
     <string name="dialog_save">저장</string>
     <string name="dialog_delete">삭제</string>
     <string name="dialog_title">제목</string>
-    <string name="dialog_desc">내용</string>
+    <string name="dialog_memo">메모</string>
     <string name="add_button">추가</string>
     <string name="dialog_title_load_schedules">일정 불러오기</string>
     <string name="dialog_message_load_schedules">서버에서 새로운 일정을 불러오시겠습니까?</string>
@@ -24,15 +24,15 @@
     <!--AddScreen -->
     <string name="add_schedule">일정 추가</string>
     <string name="add_screen_title_text">제목</string>
-    <string name="add_screen_content_text">내용</string>
+    <string name="add_screen_memo_text">메모</string>
     <string name="add_screen_date_text">날짜 선택</string>
     <string name="add_screen_title_placeholder">제목을 입력해주세요.</string>
-    <string name="add_screen_content_placeholder">내용을 입력해주세요.</string>
+    <string name="add_screen_memo_placeholder">메모를 입력해주세요.</string>
     <string name="add_screen_add_button">일정 추가하기</string>
     <!--Search Screen -->
     <string name="search_screen_search_content">제목 또는 메모 검색</string>
     <string name="search_screen_empty_text">검색어를 입력해 주세요.</string>
-    <string name="search_screen_empty_result">%1$s에 대한 검색 결과가 없습니다.</string>
+    <string name="search_screen_empty_result">\'%1$s\'에 대한 검색 결과가 없습니다.</string>
     <!-- NotificationScreen -->
     <string name="notification_setting_title">알림 받기</string>
     <string name="notification_time_setting_title">알림 시간</string>

@@ -481,7 +481,7 @@ fun ScheduleDetailDialog(
                 OutlinedTextField(
                     value = memo,
                     onValueChange = { memo = it },
-                    label = { Text(R.string.dialog_desc) },
+                    label = { Text(R.string.dialog_memo) },
                     modifier = Modifier.height(120.dp),
                     keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
                 )

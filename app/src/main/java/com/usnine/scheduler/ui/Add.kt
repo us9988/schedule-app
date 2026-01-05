@@ -125,12 +125,12 @@ fun AddScheduleView(
                 onValueChange = { title = it },
                 placeholder = stringResource(R.string.add_screen_title_placeholder)
             )
-            FormTitle(R.string.add_screen_content_text)
+            FormTitle(R.string.add_screen_memo_text)
             FormTextField(
-                label = stringResource(R.string.add_screen_content_text),
+                label = stringResource(R.string.add_screen_memo_text),
                 value = content,
                 onValueChange = { content = it },
-                placeholder = stringResource(R.string.add_screen_content_placeholder)
+                placeholder = stringResource(R.string.add_screen_memo_placeholder)
             )
             FormTitle(R.string.add_screen_date_text)
             DatePickerFieldToModal(
