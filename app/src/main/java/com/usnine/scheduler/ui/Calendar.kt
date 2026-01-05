@@ -66,8 +66,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.usnine.scheduler.R
 import com.usnine.scheduler.data.Schedule
 import com.usnine.scheduler.data.localDate
-import com.usnine.scheduler.ui.theme.PrimaryLight
-import com.usnine.scheduler.ui.theme.SecondaryLight
 import com.usnine.scheduler.util.HorizontalDivider
 import com.usnine.scheduler.util.Text
 import com.usnine.scheduler.viewmodel.CalendarViewModel
@@ -89,7 +87,6 @@ fun CalendarScreen(
             contract = ActivityResultContracts.RequestPermission(),
             onResult = {}
         )
-        // Composable이 처음 로드될 때 권한 요청
         LaunchedEffect(Unit) {
             launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
@@ -232,7 +229,8 @@ fun CalendarView(
                 }
             }
         }
-        HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         )
         val selectedDaySchedules by remember(schedulesByDate, selectedDate) {
             derivedStateOf {
@@ -268,7 +266,7 @@ fun CalendarView(
                                     onLongPress = { scheduleToDelete = schedule }
                                 )
                             },
-                        shape = RoundedCornerShape(12.dp), // 타원형(양 끝이 둥근 모양)
+                        shape = RoundedCornerShape(12.dp),
                         color = MaterialTheme.colorScheme.secondary
                     ) {
                         Column(
@@ -277,14 +275,13 @@ fun CalendarView(
                         ) {
                             Text(
                                 text = schedule.title,
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold // 제목 강조
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = schedule.description,
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSecondary
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Text(
+                                text = schedule.memo,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onTertiary
                             )
                         }
                     }
@@ -352,7 +349,7 @@ fun CalendarDayCell(
                 text = date.dayOfMonth.toString(),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color =  MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onSurface,
                 lineHeight = 18.sp
             )
 
@@ -385,7 +382,7 @@ fun CalendarHeader() {
                     .weight(1f)
                     .padding(vertical = 8.dp),
                 fontWeight = FontWeight.Bold,
-                color =  MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
@@ -465,7 +462,7 @@ fun ScheduleDetailDialog(
     onSave: (Schedule) -> Unit
 ) {
     var title by remember { mutableStateOf(schedule.title) }
-    var description by remember { mutableStateOf(schedule.description) }
+    var memo by remember { mutableStateOf(schedule.memo) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     AlertDialog(
@@ -482,9 +479,9 @@ fun ScheduleDetailDialog(
                 )
 
                 OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    label = { Text(R.string.dialog_desc) },
+                    value = memo,
+                    onValueChange = { memo = it },
+                    label = { Text(R.string.dialog_memo) },
                     modifier = Modifier.height(120.dp),
                     keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
                 )
@@ -493,7 +490,7 @@ fun ScheduleDetailDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onSave(schedule.copy(title = title, description = description))
+                    onSave(schedule.copy(title = title, memo = memo))
                 }
             ) {
                 Text(R.string.dialog_save, style = MaterialTheme.typography.bodySmall)

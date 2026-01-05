@@ -6,14 +6,17 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
-@Entity(tableName = "schedule")
+@Entity(tableName = "schedules")
 data class Schedule(
     @PrimaryKey(autoGenerate = false) val id: String,
     var date: Long,
     var title: String,
-    var description: String,
+    var memo: String,
     var isImportant: Boolean = false
 )
 
 val Schedule.localDate: LocalDate
     get() = Instant.ofEpochMilli(this.date).atZone(ZoneId.systemDefault()).toLocalDate()
+
+val Long.localDate: LocalDate
+    get() = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()

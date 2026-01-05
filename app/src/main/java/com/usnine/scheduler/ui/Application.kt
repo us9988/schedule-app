@@ -8,10 +8,10 @@ import androidx.work.Configuration
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.usnine.scheduler.BuildConfig
 import com.usnine.scheduler.R
 import com.usnine.scheduler.worker.ScheduleCheckWorker
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.util.Calendar

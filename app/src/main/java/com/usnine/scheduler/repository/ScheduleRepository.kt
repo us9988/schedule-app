@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-// Hilt/Dagger를 사용하지 않는다면 @Inject와 생성자 주입은 직접 인스턴스화로 대체
 @Singleton
 class ScheduleRepository @Inject constructor(
     private val scheduleDao: ScheduleDao,
@@ -32,6 +31,10 @@ class ScheduleRepository @Inject constructor(
 
     suspend fun getSchedulesForDateRange(startDate: Long, endDate: Long): List<Schedule> {
         return scheduleDao.getSchedulesByDateRange(startDate, endDate)
+    }
+
+    fun searchSchedules(query: String): Flow<List<Schedule>> {
+        return scheduleDao.searchSchedules(query)
     }
 
     suspend fun fetchAndSaveSchedules() {

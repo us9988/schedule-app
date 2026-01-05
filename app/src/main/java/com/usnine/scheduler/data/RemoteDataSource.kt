@@ -50,7 +50,7 @@ class RemoteDataSource @Inject constructor(
                     0L
                 }
                 val id = "$dateAsLong$title"
-                Schedule(id, date = dateAsLong, title = title, description = "")
+                Schedule(id, date = dateAsLong, title = title, memo = "")
             }
         } catch (e: Exception) {
             emptyList()

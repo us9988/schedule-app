@@ -16,10 +16,10 @@ interface ScheduleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSchedule(schedule: Schedule)
 
-    @Query("SELECT * FROM schedule ORDER BY date ASC")
+    @Query("SELECT * FROM schedules ORDER BY date ASC")
     fun getAll(): Flow<List<Schedule>>
 
-    @Query("DELETE FROM schedule")
+    @Query("DELETE FROM schedules")
     suspend fun deleteAll()
 
     @Update
@@ -28,7 +28,9 @@ interface ScheduleDao {
     @Delete
     suspend fun delete(schedule: Schedule)
 
-    @Query("SELECT * FROM schedule WHERE date >= :startDate AND date < :endDate")
+    @Query("SELECT * FROM schedules WHERE date >= :startDate AND date < :endDate")
     suspend fun getSchedulesByDateRange(startDate: Long, endDate: Long): List<Schedule>
 
+    @Query("SELECT * FROM schedules WHERE title LIKE '%' || :query || '%' OR memo LIKE '%' || :query || '%' ORDER BY date DESC")
+    fun searchSchedules(query: String): Flow<List<Schedule>>
 }

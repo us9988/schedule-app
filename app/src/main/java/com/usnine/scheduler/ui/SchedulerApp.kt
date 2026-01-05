@@ -12,22 +12,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -55,11 +48,13 @@ import com.usnine.scheduler.util.HorizontalDivider
 import com.usnine.scheduler.util.NavigationDrawerItem
 import com.usnine.scheduler.util.Text
 import com.usnine.scheduler.viewmodel.CalendarViewModel
+import com.usnine.scheduler.viewmodel.SearchViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun SchedulerApp(
-    calendarViewModel: CalendarViewModel = hiltViewModel()
+    calendarViewModel: CalendarViewModel = hiltViewModel(),
+    searchViewmodel: SearchViewModel = hiltViewModel()
 ) {
     val selectedDate by calendarViewModel.selectedDate.collectAsStateWithLifecycle()
     val isLoading by calendarViewModel.isLoading.collectAsStateWithLifecycle()
@@ -90,10 +85,19 @@ fun SchedulerApp(
     ) {
         Scaffold(
             topBar = {
-                if (currentRoute == Screen.Calendar.route) {
+                if (currentRoute == Screen.Search.route) {
+                    SearchTopAppBar(
+                        onBackClick = {
+                            navController.popBackStack()
+                        }
+                    )
+                } else if (currentRoute == Screen.Calendar.route) {
                     MainTopAppBar(
                         onMenuClick = {
                             scope.launch { drawerState.open() }
+                        },
+                        onSearchClick = {
+                            scope.launch { navController.navigate(Screen.Search.route) }
                         },
                         onAddClick = {
                             scope.launch {
@@ -114,6 +118,15 @@ fun SchedulerApp(
             ) {
                 composable(Screen.Calendar.route) {
                     CalendarScreen(viewModel = calendarViewModel)
+                }
+                composable(Screen.Search.route) {
+                    SearchScreen(
+                        viewModel = searchViewmodel,
+                        onItemClick = { dateTimestamp ->
+                            calendarViewModel.updateSelectedDate(dateTimestamp)
+                            navController.popBackStack(Screen.Calendar.route, inclusive = false)
+                        }
+                    )
                 }
                 composable(
                     route = Screen.Add.route,
@@ -153,45 +166,12 @@ fun SchedulerApp(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MainTopAppBar(
-    onMenuClick: () -> Unit,
-    onAddClick: () -> Unit
-) {
-    TopAppBar(
-        title = {
-            Text(
-                stringResId = R.string.app_title,
-                style = MaterialTheme.typography.titleMedium,
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = onMenuClick) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = stringResource(R.string.content_desc_menu)
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = onAddClick) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.content_desc_add_schedule)
-                )
-            }
-        },
-    )
-}
-
 @Composable
 fun AppDrawerContent(
     onItemClick: (String) -> Unit,
     onLoadClick: () -> Unit
 ) {
     var showConfirmDialog by remember { mutableStateOf(false) }
-    // 2. showConfirmDialog가 true일 때 다이얼로그를 표시
     if (showConfirmDialog) {
         AlertDialog(
             onDismissRequest = {
