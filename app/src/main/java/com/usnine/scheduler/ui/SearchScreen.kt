@@ -49,19 +49,28 @@ fun SearchScreen(
     } else if (searchResults.isEmpty()) {
         EmptyStateView(stringResource(R.string.search_screen_empty_result, searchQuery))
     } else {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(
-                items = searchResults,
-                key = { it.id }
-            ) { schedule ->
-                SearchItem(
-                    schedule = schedule,
-                    onItemClick = { onItemClick(schedule.date) }
-                )
+        Column(modifier = Modifier.fillMaxSize()) {
+            Text(
+                text = stringResource(R.string.search_screen_onclick_result),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onTertiary,
+                modifier = Modifier
+                    .padding(start = 16.dp, bottom = 4.dp, end = 16.dp)
+            )
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(
+                    items = searchResults,
+                    key = { it.id }
+                ) { schedule ->
+                    SearchItem(
+                        schedule = schedule,
+                        onItemClick = { onItemClick(schedule.date) }
+                    )
+                }
             }
         }
     }

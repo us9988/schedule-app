@@ -33,6 +33,7 @@
     <string name="search_screen_search_content">제목 또는 메모 검색</string>
     <string name="search_screen_empty_text">검색어를 입력해 주세요.</string>
     <string name="search_screen_empty_result">\'%1$s\'에 대한 검색 결과가 없습니다.</string>
+    <string name="search_screen_onclick_result">일정 터치 시 달력의 해당 일정으로 이동합니다.</string>
     <!-- NotificationScreen -->
     <string name="notification_setting_title">알림 받기</string>
     <string name="notification_time_setting_title">알림 시간</string>
