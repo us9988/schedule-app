@@ -19,7 +19,7 @@ object DatabaseModule {
         return Room.databaseBuilder(
             appContext,
             AppDatabase::class.java,
-            "schedule_database"
+            "scheduler_database"
         ).build()
     }
 
