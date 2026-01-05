@@ -66,7 +66,7 @@ class CalendarViewModel @Inject constructor( // Hilt 사용 시, 아니면 직�
 
     fun addNewSchedule(
         title: String,
-        description: String,
+        memo: String,
         date: Long?,
         isImportant: Boolean = false,
     ): Boolean {
@@ -77,7 +77,7 @@ class CalendarViewModel @Inject constructor( // Hilt 사용 시, 아니면 직�
         val newSchedule = Schedule(
             id = id,
             title = title,
-            description = description,
+            memo = memo,
             date = date,
             isImportant = isImportant
         )

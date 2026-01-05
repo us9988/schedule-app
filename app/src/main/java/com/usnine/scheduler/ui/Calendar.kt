@@ -280,7 +280,7 @@ fun CalendarView(
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = schedule.description,
+                                text = schedule.memo,
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSecondary
                             )
@@ -463,7 +463,7 @@ fun ScheduleDetailDialog(
     onSave: (Schedule) -> Unit
 ) {
     var title by remember { mutableStateOf(schedule.title) }
-    var description by remember { mutableStateOf(schedule.description) }
+    var memo by remember { mutableStateOf(schedule.memo) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     AlertDialog(
@@ -480,8 +480,8 @@ fun ScheduleDetailDialog(
                 )
 
                 OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it },
+                    value = memo,
+                    onValueChange = { memo = it },
                     label = { Text(R.string.dialog_desc) },
                     modifier = Modifier.height(120.dp),
                     keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
@@ -491,7 +491,7 @@ fun ScheduleDetailDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onSave(schedule.copy(title = title, description = description))
+                    onSave(schedule.copy(title = title, memo = memo))
                 }
             ) {
                 Text(R.string.dialog_save, style = MaterialTheme.typography.bodySmall)

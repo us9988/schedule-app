@@ -41,11 +41,13 @@
     <string name="content_desc_back">뒤로 가기</string>
     <string name="content_desc_menu">메뉴</string>
     <string name="content_desc_add_schedule">일정 추가</string>
+    <string name="content_desc_search_schedule">일정 검색</string>
     <string name="content_desc_drawer_home">홈 메뉴 클릭</string>
     <string name="content_desc_drawer_notification">알림 메뉴 클릭</string>
     <string name="content_desc_drawer_load">일정 불러오기 메뉴 클릭</string>
     <string name="content_desc_next_month">다음 달</string>
     <string name="content_desc_prev_month">이전 달</string>
+    <string name="content_desc_select_date">날짜 선택</string>
     <!--notification -->
     <string name="notification_alarm_name">일정 알림</string>
     <string name="notification_alarm_desc">오늘 일정</string>
