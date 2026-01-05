@@ -17,3 +17,6 @@ data class Schedule(
 
 val Schedule.localDate: LocalDate
     get() = Instant.ofEpochMilli(this.date).atZone(ZoneId.systemDefault()).toLocalDate()
+
+val Long.localDate: LocalDate
+    get() = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()

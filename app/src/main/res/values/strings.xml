@@ -29,11 +29,15 @@
     <string name="add_screen_title_placeholder">제목을 입력해주세요.</string>
     <string name="add_screen_content_placeholder">내용을 입력해주세요.</string>
     <string name="add_screen_add_button">일정 추가하기</string>
+    <!--Search Screen -->
+    <string name="search_screen_search_content">제목 또는 메모 검색</string>
+    <string name="search_screen_empty_text">검색어를 입력해 주세요.</string>
+    <string name="search_screen_empty_result">%1$s에 대한 검색 결과가 없습니다.</string>
     <!-- NotificationScreen -->
     <string name="notification_setting_title">알림 받기</string>
     <string name="notification_time_setting_title">알림 시간</string>
     <string name="notification_off_message">알림이 꺼져있습니다.</string>
-    <string name="notification_description">스케줄이 등록된 날에만 설정된 시간에 알림이 전송됩니다.</string>
+    <string name="notification_description">일정이 등록된 날에만 설정된 시간에 알림이 전송됩니다.</string>
     <!--snackbar -->
     <string name="snackbar_add_schedule_success">일정이 추가되었습니다.</string>
     <string name="snackbar_add_schedule_cancel">제목과 날짜를 모두 입력해주세요.</string>

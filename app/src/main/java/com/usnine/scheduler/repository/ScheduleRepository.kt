@@ -33,6 +33,10 @@ class ScheduleRepository @Inject constructor(
         return scheduleDao.getSchedulesByDateRange(startDate, endDate)
     }
 
+    fun searchSchedules(query: String): Flow<List<Schedule>> {
+        return scheduleDao.searchSchedules(query)
+    }
+
     suspend fun fetchAndSaveSchedules() {
         val remoteSchedules = remoteDataSource.fetchSchedules()
         if (remoteSchedules.isNotEmpty()) {

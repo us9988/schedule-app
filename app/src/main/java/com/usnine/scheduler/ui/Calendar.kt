@@ -266,7 +266,7 @@ fun CalendarView(
                                     onLongPress = { scheduleToDelete = schedule }
                                 )
                             },
-                        shape = RoundedCornerShape(12.dp), // 타원형(양 끝이 둥근 모양)
+                        shape = RoundedCornerShape(12.dp),
                         color = MaterialTheme.colorScheme.secondary
                     ) {
                         Column(
@@ -275,14 +275,13 @@ fun CalendarView(
                         ) {
                             Text(
                                 text = schedule.title,
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold // 제목 강조
+                                style = MaterialTheme.typography.bodyMedium,
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            Spacer(modifier = Modifier.height(10.dp))
                             Text(
                                 text = schedule.memo,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSecondary
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onTertiary
                             )
                         }
                     }

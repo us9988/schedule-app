@@ -31,4 +31,6 @@ interface ScheduleDao {
     @Query("SELECT * FROM schedules WHERE date >= :startDate AND date < :endDate")
     suspend fun getSchedulesByDateRange(startDate: Long, endDate: Long): List<Schedule>
 
+    @Query("SELECT * FROM schedules WHERE title LIKE '%' || :query || '%' OR memo LIKE '%' || :query || '%' ORDER BY date DESC")
+    fun searchSchedules(query: String): Flow<List<Schedule>>
 }

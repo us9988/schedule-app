@@ -3,6 +3,7 @@ package com.usnine.scheduler.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.usnine.scheduler.data.Schedule
+import com.usnine.scheduler.data.localDate
 import com.usnine.scheduler.repository.ScheduleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,6 +63,10 @@ class CalendarViewModel @Inject constructor( // Hilt 사용 시, 아니면 직�
 
     fun onDateSelected(date: LocalDate) {
         _selectedDate.value = date
+    }
+
+    fun updateSelectedDate(timestamp: Long) {
+        _selectedDate.value = timestamp.localDate
     }
 
     fun addNewSchedule(
