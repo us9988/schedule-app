@@ -17,7 +17,7 @@ android {
         applicationId = "com.usnine.scheduler"
         minSdk = 28
         targetSdk = 36
-        versionCode = 10004
+        versionCode = 10005
         versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

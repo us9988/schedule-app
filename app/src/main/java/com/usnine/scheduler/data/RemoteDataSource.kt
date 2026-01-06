@@ -1,10 +1,10 @@
 package com.usnine.scheduler.data
 
-import com.usnine.scheduler.BuildConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.usnine.scheduler.BuildConfig
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -36,21 +36,23 @@ class RemoteDataSource @Inject constructor(
             }
             val type = object : TypeToken<List<Map<String, String>>>() {}.type
             val rawSchedules: List<Map<String, String>> = gson.fromJson(json, type)
-
-            rawSchedules.map { rawSchedule ->
+            rawSchedules.mapNotNull { rawSchedule ->
                 val dateString = rawSchedule["date"]
                 val title = rawSchedule["title"]
                 if (dateString.isNullOrBlank() || title.isNullOrBlank()) {
-                    return emptyList()
+                    return@mapNotNull null
                 }
-
-                val dateAsLong = if (dateString.isNotEmpty()) {
-                    LocalDate.parse(dateString).atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
-                } else {
-                    0L
+                try {
+                    val dateAsLong = if (dateString.isNotEmpty()) {
+                        LocalDate.parse(dateString).atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
+                    } else {
+                        0L
+                    }
+                    val id = "$dateAsLong$title"
+                    Schedule(id, date = dateAsLong, title = title, memo = "")
+                } catch (e: Exception) {
+                    null
                 }
-                val id = "$dateAsLong$title"
-                Schedule(id, date = dateAsLong, title = title, memo = "")
             }
         } catch (e: Exception) {
             emptyList()
