@@ -1,21 +1,20 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# 1. Gson & 데이터 클래스
+-keep class com.usnine.scheduler.data.Schedule { *; }
+-keep class com.google.gson.reflect.TypeToken { *; }
+-keep class * extends com.google.gson.reflect.TypeToken
+-keepattributes Signature, *Annotation*, EnclosingMethod, InnerClasses
+-dontwarn com.google.gson.**
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# 2. Firebase Remote Config
+-keep class com.google.firebase.remoteconfig.** { *; }
+-keep class com.google.android.gms.internal.firebase_remote_config.** { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# 3. Hilt & Dagger
+-keep class * extends java.lang.annotation.Annotation { *; }
+-keep interface dagger.hilt.internal.GeneratedComponent { *; }
+-keep class dagger.hilt.internal.GeneratedComponentManager { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# 4. Room DB
+-keep class com.usnine.scheduler.data.Schedule { *; }
+-keep interface com.usnine.scheduler.data.ScheduleDao { *; }
+-keep class * extends androidx.room.RoomDatabase { *; }
