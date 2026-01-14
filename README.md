@@ -29,4 +29,4 @@
 * **Background:** WorkManager
 
 ## 💾 Download
-[Google Play Store 링크](링크주소)에서 앱을 다운로드할 수 있습니다.
+[Google Play Store 링크](https://play.google.com/store/apps/details?id=com.usnine.scheduler)에서 앱을 다운로드할 수 있습니다.
