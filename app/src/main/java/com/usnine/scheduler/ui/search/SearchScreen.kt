@@ -1,4 +1,4 @@
-package com.usnine.scheduler.ui
+package com.usnine.scheduler.ui.search
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -28,8 +28,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.usnine.scheduler.R
-import com.usnine.scheduler.data.Schedule
-import com.usnine.scheduler.viewmodel.SearchViewModel
+import com.usnine.scheduler.data.model.Schedule
+import com.usnine.scheduler.ui.convertMillisToDate
 
 @Composable
 fun SearchScreen(

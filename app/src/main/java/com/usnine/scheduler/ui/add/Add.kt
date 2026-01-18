@@ -1,4 +1,4 @@
-package com.usnine.scheduler.ui
+package com.usnine.scheduler.ui.add
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -38,9 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.usnine.scheduler.R
+import com.usnine.scheduler.ui.calendar.CalendarViewModel
 import com.usnine.scheduler.ui.theme.PrimaryLight
-import com.usnine.scheduler.util.Text
-import com.usnine.scheduler.viewmodel.CalendarViewModel
+import com.usnine.scheduler.utils.Text
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId

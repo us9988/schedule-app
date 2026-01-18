@@ -43,12 +43,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.usnine.scheduler.R
+import com.usnine.scheduler.ui.calendar.CalendarViewModel
 import com.usnine.scheduler.ui.navigation.Screen
-import com.usnine.scheduler.util.HorizontalDivider
-import com.usnine.scheduler.util.NavigationDrawerItem
-import com.usnine.scheduler.util.Text
-import com.usnine.scheduler.viewmodel.CalendarViewModel
-import com.usnine.scheduler.viewmodel.SearchViewModel
+import com.usnine.scheduler.ui.search.SearchViewModel
+import com.usnine.scheduler.utils.HorizontalDivider
+import com.usnine.scheduler.utils.NavigationDrawerItem
+import com.usnine.scheduler.utils.Text
 import kotlinx.coroutines.launch
 
 @Composable

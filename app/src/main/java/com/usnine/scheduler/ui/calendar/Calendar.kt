@@ -1,4 +1,4 @@
-package com.usnine.scheduler.ui
+package com.usnine.scheduler.ui.calendar
 
 import android.Manifest
 import android.os.Build
@@ -64,11 +64,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.usnine.scheduler.R
-import com.usnine.scheduler.data.Schedule
-import com.usnine.scheduler.data.localDate
-import com.usnine.scheduler.util.HorizontalDivider
-import com.usnine.scheduler.util.Text
-import com.usnine.scheduler.viewmodel.CalendarViewModel
+import com.usnine.scheduler.data.model.Schedule
+import com.usnine.scheduler.data.model.localDate
+import com.usnine.scheduler.utils.HorizontalDivider
+import com.usnine.scheduler.utils.Text
 import java.time.Instant
 import java.time.LocalDate
 import java.time.YearMonth

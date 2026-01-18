@@ -1,8 +1,8 @@
-package com.usnine.scheduler.repository
+package com.usnine.scheduler.data.repository
 
-import com.usnine.scheduler.data.RemoteDataSource
-import com.usnine.scheduler.data.Schedule
-import com.usnine.scheduler.data.ScheduleDao
+import com.usnine.scheduler.data.local.ScheduleDao
+import com.usnine.scheduler.data.model.Schedule
+import com.usnine.scheduler.data.remote.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton

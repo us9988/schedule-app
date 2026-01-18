@@ -25,8 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.usnine.scheduler.R
-import com.usnine.scheduler.util.Text
-import com.usnine.scheduler.viewmodel.SearchViewModel
+import com.usnine.scheduler.ui.search.SearchViewModel
+import com.usnine.scheduler.utils.Text
 
 /**
  *  메인화면 상단 바

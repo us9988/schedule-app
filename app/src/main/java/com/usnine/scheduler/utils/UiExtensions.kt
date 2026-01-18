@@ -1,4 +1,4 @@
-package com.usnine.scheduler.util
+package com.usnine.scheduler.utils
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding

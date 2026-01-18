@@ -1,4 +1,4 @@
-package com.usnine.scheduler.worker
+package com.usnine.scheduler.data.worker
 
 import android.Manifest
 import android.content.Context
@@ -14,7 +14,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.usnine.scheduler.R
-import com.usnine.scheduler.repository.ScheduleRepository
+import com.usnine.scheduler.data.repository.ScheduleRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.time.LocalDate

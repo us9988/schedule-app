@@ -1,10 +1,11 @@
-package com.usnine.scheduler.data
+package com.usnine.scheduler.data.remote
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.usnine.scheduler.BuildConfig
+import com.usnine.scheduler.data.model.Schedule
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import java.time.ZoneOffset

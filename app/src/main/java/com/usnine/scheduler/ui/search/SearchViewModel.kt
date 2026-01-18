@@ -1,9 +1,9 @@
-package com.usnine.scheduler.viewmodel
+package com.usnine.scheduler.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.usnine.scheduler.data.Schedule
-import com.usnine.scheduler.repository.ScheduleRepository
+import com.usnine.scheduler.data.model.Schedule
+import com.usnine.scheduler.data.repository.ScheduleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow

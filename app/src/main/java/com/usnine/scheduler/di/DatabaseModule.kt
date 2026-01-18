@@ -1,7 +1,9 @@
-package com.usnine.scheduler.data
+package com.usnine.scheduler.di
 
 import android.content.Context
 import androidx.room.Room
+import com.usnine.scheduler.data.local.AppDatabase
+import com.usnine.scheduler.data.local.ScheduleDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.usnine.scheduler.data
+package com.usnine.scheduler.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
