@@ -65,13 +65,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.usnine.scheduler.R
 import com.usnine.scheduler.data.model.Schedule
-import com.usnine.scheduler.data.model.localDate
 import com.usnine.scheduler.utils.HorizontalDivider
 import com.usnine.scheduler.utils.Text
-import java.time.Instant
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -136,7 +133,7 @@ fun CalendarView(
                 scheduleDate.year == currentMonth.year && scheduleDate.month == currentMonth.month
             }
             .groupBy {
-                Instant.ofEpochMilli(it.date).atZone(ZoneId.systemDefault()).toLocalDate()
+                it.localDate
             }
     }
     if (showDatePickerDialog) {

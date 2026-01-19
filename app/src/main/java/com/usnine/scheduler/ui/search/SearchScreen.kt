@@ -29,12 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.usnine.scheduler.R
 import com.usnine.scheduler.data.model.Schedule
-import com.usnine.scheduler.ui.convertMillisToDate
+import com.usnine.scheduler.ui.convertMillisToYmd
+import java.time.LocalDate
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel,
-    onItemClick: (Long) -> Unit
+    onItemClick: (LocalDate) -> Unit
 ) {
     DisposableEffect(Unit) {
         onDispose {
@@ -68,7 +69,7 @@ fun SearchScreen(
                 ) { schedule ->
                     SearchItem(
                         schedule = schedule,
-                        onItemClick = { onItemClick(schedule.date) }
+                        onItemClick = { onItemClick(schedule.localDate) }
                     )
                 }
             }
@@ -93,7 +94,7 @@ fun SearchItem(schedule: Schedule, onItemClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = convertMillisToDate(schedule.date),
+                text = schedule.startDateString,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
             )

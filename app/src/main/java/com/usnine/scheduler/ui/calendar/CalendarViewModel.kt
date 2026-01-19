@@ -1,10 +1,9 @@
-package com.usnine.scheduler.viewmodel
+package com.usnine.scheduler.ui.calendar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.usnine.scheduler.data.Schedule
-import com.usnine.scheduler.data.localDate
-import com.usnine.scheduler.repository.ScheduleRepository
+import com.usnine.scheduler.data.model.Schedule
+import com.usnine.scheduler.data.repository.ScheduleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,8 +16,8 @@ import java.time.YearMonth
 import javax.inject.Inject
 
 @HiltViewModel
-class CalendarViewModel @Inject constructor( // Hilt 사용 시, 아니면 직접 Repository 주입
-    private val scheduleRepository: ScheduleRepository
+class CalendarViewModel @Inject constructor(
+    private val repository: ScheduleRepository
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(LocalDate.now())
@@ -29,6 +28,9 @@ class CalendarViewModel @Inject constructor( // Hilt 사용 시, 아니면 직�
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    val schedules: StateFlow<List<Schedule>> = repository.getSchedulesFromLocal()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun onPreviousMonth() {
         _currentMonth.value = _currentMonth.value.minusMonths(1)
@@ -42,22 +44,16 @@ class CalendarViewModel @Inject constructor( // Hilt 사용 시, 아니면 직�
         _currentMonth.value = YearMonth.of(year, month)
     }
 
-    val schedules: StateFlow<List<Schedule>> = scheduleRepository.getAllSchedules()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
-        )
 
     fun updateSchedule(schedule: Schedule) {
         viewModelScope.launch {
-            scheduleRepository.update(schedule)
+            repository.update(schedule)
         }
     }
 
     fun deleteSchedule(schedule: Schedule) {
         viewModelScope.launch {
-            scheduleRepository.delete(schedule)
+            repository.delete(schedule)
         }
     }
 
@@ -65,45 +61,18 @@ class CalendarViewModel @Inject constructor( // Hilt 사용 시, 아니면 직�
         _selectedDate.value = date
     }
 
-    fun updateSelectedDate(timestamp: Long) {
-        _selectedDate.value = timestamp.localDate
+    fun updateSelectedDate(localDate: LocalDate) {
+        _selectedDate.value = localDate
     }
 
-    fun addNewSchedule(
-        title: String,
-        memo: String,
-        date: Long?,
-        isImportant: Boolean = false,
-    ): Boolean {
-        if (title.isBlank() || date == null) {
-            return false
-        }
-        val id = "$date$title"
-        val newSchedule = Schedule(
-            id = id,
-            title = title,
-            memo = memo,
-            date = date,
-            isImportant = isImportant
-        )
-        viewModelScope.launch {
-            try {
-                scheduleRepository.insertNewSchedule(newSchedule)
-            } catch (_: Exception) {
 
-            }
-        }
-        return true
-    }
 
     fun loadSchedulesFromRemote() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                scheduleRepository.fetchAndSaveSchedules()
-                // 성공 시 UI에 알림 (예: Snackbar)
+                repository.syncRemoteSchedules()
             } catch (e: Exception) {
-                // 실패 시
             } finally {
                 _isLoading.value = false
             }

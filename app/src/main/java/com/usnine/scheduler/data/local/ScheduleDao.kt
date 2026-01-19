@@ -11,27 +11,31 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ScheduleDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertRemoteSchedules(events: List<Schedule>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSchedule(schedule: Schedule)
+    suspend fun insert(schedule: ScheduleEntity)
 
-    @Query("SELECT * FROM schedules ORDER BY date ASC")
-    fun getAll(): Flow<List<Schedule>>
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(schedules: List<ScheduleEntity>)
+
+    @Update
+    suspend fun update(schedule: ScheduleEntity)
+
+    @Query("DELETE FROM schedules WHERE id = :id")
+    suspend fun deleteById(id: String)
+
+    @Query("SELECT * FROM schedules WHERE id = :id")
+    suspend fun getById(id: String): ScheduleEntity?
+
+    @Query("SELECT * FROM schedules ORDER BY startDateMillis ASC")
+    fun getAll(): Flow<List<ScheduleEntity>>
 
     @Query("DELETE FROM schedules")
     suspend fun deleteAll()
 
-    @Update
-    suspend fun update(schedule: Schedule)
+    @Query("SELECT * FROM schedules WHERE startDateMillis >= :startDate AND startDateMillis < :endDate")
+    suspend fun getSchedulesByDateRange(startDate: Long, endDate: Long): List<ScheduleEntity>
 
-    @Delete
-    suspend fun delete(schedule: Schedule)
-
-    @Query("SELECT * FROM schedules WHERE date >= :startDate AND date < :endDate")
-    suspend fun getSchedulesByDateRange(startDate: Long, endDate: Long): List<Schedule>
-
-    @Query("SELECT * FROM schedules WHERE title LIKE '%' || :query || '%' OR memo LIKE '%' || :query || '%' ORDER BY date DESC")
-    fun searchSchedules(query: String): Flow<List<Schedule>>
+    @Query("SELECT * FROM schedules WHERE title LIKE '%' || :query || '%' OR memo LIKE '%' || :query || '%' ORDER BY startDateMillis DESC")
+    fun searchSchedules(query: String): Flow<List<ScheduleEntity>>
 }

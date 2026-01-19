@@ -72,7 +72,7 @@ fun DatePickerFieldToModal(
     var showModal by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        value = selectedDate?.let { convertMillisToDate(it) } ?: "",
+        value = selectedDate?.let { convertMillisToYmd(it) } ?: "",
         onValueChange = { },
         placeholder = { Text(selectedDate.toString()) },
         trailingIcon = {
@@ -106,7 +106,7 @@ fun DatePickerFieldToModal(
     }
 }
 
-fun convertMillisToDate(millis: Long): String {
+fun convertMillisToYmd(millis: Long): String {
     val formatter = SimpleDateFormat(YMD_DATE_FORMAT, Locale.getDefault())
     return formatter.format(Date(millis))
 }

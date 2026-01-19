@@ -38,12 +38,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.usnine.scheduler.R
-import com.usnine.scheduler.ui.calendar.CalendarViewModel
+import com.usnine.scheduler.ui.DatePickerFieldToModal
 import com.usnine.scheduler.ui.theme.PrimaryLight
 import com.usnine.scheduler.utils.Text
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
+
 
 @Composable
 fun AddScreen(
@@ -60,7 +61,7 @@ fun AddScreen(
 fun AddScheduleView(
     defaultDate: String?,
     navController: NavController,
-    viewModel: CalendarViewModel = hiltViewModel()
+    viewModel: AddViewModel = hiltViewModel()
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -68,7 +69,7 @@ fun AddScheduleView(
     val initialDate = remember(defaultDate) {
         try {
             defaultDate?.let { LocalDate.parse(it) } ?: LocalDate.now()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             LocalDate.now()
         }
     }
@@ -97,7 +98,6 @@ fun AddScheduleView(
                     .padding(bottom = 24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // 뒤로가기 아이콘
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(R.string.content_desc_back),
