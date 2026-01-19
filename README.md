@@ -7,12 +7,13 @@
 ![Compose](https://img.shields.io/badge/Jetpack%20Compose-1.10.1-4285F4?style=flat&logo=jetpackcompose&logoColor=white)
 
 ## 📱 Screenshots
-| light | dark |
-|:---:|:---:|
-| <img src="https://github.com/user-attachments/assets/08480a05-65f9-4768-88f7-0216eecf31ac" width="200"/> | <img src="https://github.com/user-attachments/assets/d28f4ece-bc17-4c02-87a1-fc1f4b02077d" width="200"/> |  |
+| light | dark | search|
+|:---:|:---:|:---:|
+| <img src="https://github.com/user-attachments/assets/c110dd25-f63a-44c8-8121-b4f04e099823" width="200"/> | <img src="https://github.com/user-attachments/assets/958e870e-cb28-42ef-ba8b-b1cf56372ac3" width="200"/> | <img src="https://github.com/user-attachments/assets/5e19e0d2-0fa0-4872-ae05-601af42c2e9b" width="200"/> |
 
 ## ✨ Key Features
 * **간편한 일정 등록**
+* **학사 일정 불러오기**
 * **오늘 일정 푸시 알림** 
 * **캘린더 뷰**
 * **다크 모드 지원**
@@ -22,11 +23,11 @@
 
 * **Language:** Kotlin
 * **UI:** Jetpack Compose (Material3)
-* **Architecture:** MVVM Pattern, Repository Pattern
+* **Architecture:** MVVM
 * **DI:** Hilt
 * **Async:** Coroutines, Flow
 * **Local DB:** Room Database
-* **Background:** WorkManager
+* **Remote DB:** FireStore
 
 ## 💾 Download
 [Google Play Store 링크](https://play.google.com/store/apps/details?id=com.usnine.scheduler)에서 앱을 다운로드할 수 있습니다.
