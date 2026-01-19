@@ -1,4 +1,4 @@
-package com.usnine.scheduler.ui
+package com.usnine.scheduler.ui.calendar
 
 import android.Manifest
 import android.os.Build
@@ -64,15 +64,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.usnine.scheduler.R
-import com.usnine.scheduler.data.Schedule
-import com.usnine.scheduler.data.localDate
-import com.usnine.scheduler.util.HorizontalDivider
-import com.usnine.scheduler.util.Text
-import com.usnine.scheduler.viewmodel.CalendarViewModel
-import java.time.Instant
+import com.usnine.scheduler.data.model.Schedule
+import com.usnine.scheduler.utils.HorizontalDivider
+import com.usnine.scheduler.utils.Text
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -137,7 +133,7 @@ fun CalendarView(
                 scheduleDate.year == currentMonth.year && scheduleDate.month == currentMonth.month
             }
             .groupBy {
-                Instant.ofEpochMilli(it.date).atZone(ZoneId.systemDefault()).toLocalDate()
+                it.localDate
             }
     }
     if (showDatePickerDialog) {
@@ -273,16 +269,25 @@ fun CalendarView(
                             modifier = Modifier
                                 .padding(horizontal = 20.dp, vertical = 12.dp)
                         ) {
+                            val endDateString = schedule.endDateString
+                            val title = if (endDateString.isNotEmpty()) {
+                                stringResource(R.string.schedule_item_title, schedule.title, endDateString)
+                            } else {
+                                schedule.title
+                            }
+                            val memo = schedule.memo
                             Text(
-                                text = schedule.title,
+                                text = title,
                                 style = MaterialTheme.typography.bodyMedium,
                             )
-                            Spacer(modifier = Modifier.height(10.dp))
-                            Text(
-                                text = schedule.memo,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onTertiary
-                            )
+                            if (memo.isNotEmpty()) {
+                                Spacer(modifier = Modifier.height(14.dp))
+                                Text(
+                                    text = memo,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onTertiary
+                                )
+                            }
                         }
                     }
                 }
@@ -297,9 +302,10 @@ fun getDaysInMonth(yearMonth: YearMonth): List<LocalDate?> {
     val daysInMonth = yearMonth.lengthOfMonth()
     val days = mutableListOf<LocalDate?>()
     val firstDayIndex = startDayOfWeek.ordinal
-
-    for (i in 0..firstDayIndex) {
-        days.add(null)
+    if (firstDayIndex < 6) {
+        for (i in 0..firstDayIndex) {
+            days.add(null)
+        }
     }
     // 해당 월의 처음 빈 날짜 채우기
     for (i in 1..daysInMonth) {

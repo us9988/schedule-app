@@ -17,8 +17,8 @@ android {
         applicationId = "com.usnine.scheduler"
         minSdk = 28
         targetSdk = 36
-        versionCode = 10005
-        versionName = "1.0.1"
+        versionCode = 10006
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.config)
+    implementation(libs.firebase.firestore)
 
     implementation(libs.timber)
 

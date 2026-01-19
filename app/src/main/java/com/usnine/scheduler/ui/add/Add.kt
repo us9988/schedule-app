@@ -1,4 +1,4 @@
-package com.usnine.scheduler.ui
+package com.usnine.scheduler.ui.add
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,12 +39,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.usnine.scheduler.R
+import com.usnine.scheduler.ui.DatePickerFieldToModal
 import com.usnine.scheduler.ui.theme.PrimaryLight
-import com.usnine.scheduler.util.Text
-import com.usnine.scheduler.viewmodel.CalendarViewModel
+import com.usnine.scheduler.utils.Text
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
+
 
 @Composable
 fun AddScreen(
@@ -60,7 +62,7 @@ fun AddScreen(
 fun AddScheduleView(
     defaultDate: String?,
     navController: NavController,
-    viewModel: CalendarViewModel = hiltViewModel()
+    viewModel: AddViewModel = hiltViewModel()
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -68,7 +70,7 @@ fun AddScheduleView(
     val initialDate = remember(defaultDate) {
         try {
             defaultDate?.let { LocalDate.parse(it) } ?: LocalDate.now()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             LocalDate.now()
         }
     }
@@ -82,7 +84,12 @@ fun AddScheduleView(
     var content by remember { mutableStateOf("") }
     var selectedDate by remember { mutableStateOf<Long?>(initialDateInMillis) }
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.imePadding()
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -97,7 +104,6 @@ fun AddScheduleView(
                     .padding(bottom = 24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // 뒤로가기 아이콘
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(R.string.content_desc_back),
@@ -117,7 +123,6 @@ fun AddScheduleView(
                     textAlign = TextAlign.Center
                 )
             }
-
             FormTitle(R.string.add_screen_title_text)
             FormTextField(
                 label = "",

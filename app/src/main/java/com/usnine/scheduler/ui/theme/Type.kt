@@ -42,8 +42,8 @@ val Typography = Typography(
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp,
-        lineHeight = 18.sp,
-        letterSpacing = 0.5.sp
+        lineHeight = 20.sp,
+        letterSpacing = 0.5.sp,
     ),
     bodySmall = TextStyle(
         fontFamily = AppFontFamily,

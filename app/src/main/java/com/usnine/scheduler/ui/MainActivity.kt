@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
             SchedulerTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background // 테마에서 설정한 색 적용
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     SchedulerApp()
                 }

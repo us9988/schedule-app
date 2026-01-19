@@ -1,4 +1,4 @@
-package com.usnine.scheduler.ui
+package com.usnine.scheduler.ui.search
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -28,13 +28,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.usnine.scheduler.R
-import com.usnine.scheduler.data.Schedule
-import com.usnine.scheduler.viewmodel.SearchViewModel
+import com.usnine.scheduler.data.model.Schedule
+import java.time.LocalDate
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel,
-    onItemClick: (Long) -> Unit
+    onItemClick: (LocalDate) -> Unit
 ) {
     DisposableEffect(Unit) {
         onDispose {
@@ -68,7 +68,7 @@ fun SearchScreen(
                 ) { schedule ->
                     SearchItem(
                         schedule = schedule,
-                        onItemClick = { onItemClick(schedule.date) }
+                        onItemClick = { onItemClick(schedule.localDate) }
                     )
                 }
             }
@@ -92,25 +92,35 @@ fun SearchItem(schedule: Schedule, onItemClick: () -> Unit) {
         color = MaterialTheme.colorScheme.secondary,
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
+            val endDateString = schedule.endDateString
+            val dateText = if (endDateString.isNotEmpty()) {
+                stringResource(R.string.search_item_date_title, schedule.startDateString, endDateString)
+            } else {
+                schedule.startDateString
+            }
+            val memo = schedule.memo
             Text(
-                text = convertMillisToDate(schedule.date),
+                text = dateText,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
             )
+            Spacer(modifier = Modifier.height(14.dp))
             Text(
                 text = schedule.title,
                 style = MaterialTheme.typography.bodyMedium,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = schedule.memo,
-                style = MaterialTheme.typography.bodySmall,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 2,
-                color = MaterialTheme.colorScheme.onTertiary
-            )
+            if (memo.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = schedule.memo,
+                    style = MaterialTheme.typography.bodySmall,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2,
+                    color = MaterialTheme.colorScheme.onTertiary
+                )
+            }
         }
     }
 }

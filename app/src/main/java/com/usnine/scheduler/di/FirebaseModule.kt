@@ -5,6 +5,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.crashlytics.crashlytics
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.gson.Gson
@@ -34,6 +36,12 @@ object FirebaseModule {
     @Singleton
     fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
         return Firebase.remoteConfig
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirestore(): FirebaseFirestore {
+        return Firebase.firestore
     }
 
     @Provides
