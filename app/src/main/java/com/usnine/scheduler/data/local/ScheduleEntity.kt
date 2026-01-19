@@ -10,11 +10,12 @@ import java.time.ZoneId
 data class ScheduleEntity(
     @PrimaryKey
     val id: String,
-    var title: String,
-    var startDateString: String,
-    var endDateString: String,
-    var startDateMillis: Long,
-    var memo: String = ""
+    val title: String,
+    val startDateString: String,
+    val endDateString: String,
+    val startDateMillis: Long,
+    val memo: String = "",
+    val isRemote: Boolean = false,
 )
 
 fun ScheduleEntity.toDomain(): Schedule {

@@ -269,16 +269,25 @@ fun CalendarView(
                             modifier = Modifier
                                 .padding(horizontal = 20.dp, vertical = 12.dp)
                         ) {
+                            val endDateString = schedule.endDateString
+                            val title = if (endDateString.isNotEmpty()) {
+                                stringResource(R.string.schedule_item_title, schedule.title, endDateString)
+                            } else {
+                                schedule.title
+                            }
+                            val memo = schedule.memo
                             Text(
-                                text = schedule.title,
+                                text = title,
                                 style = MaterialTheme.typography.bodyMedium,
                             )
-                            Spacer(modifier = Modifier.height(10.dp))
-                            Text(
-                                text = schedule.memo,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onTertiary
-                            )
+                            if (memo.isNotEmpty()) {
+                                Spacer(modifier = Modifier.height(14.dp))
+                                Text(
+                                    text = memo,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onTertiary
+                                )
+                            }
                         }
                     }
                 }
@@ -293,9 +302,10 @@ fun getDaysInMonth(yearMonth: YearMonth): List<LocalDate?> {
     val daysInMonth = yearMonth.lengthOfMonth()
     val days = mutableListOf<LocalDate?>()
     val firstDayIndex = startDayOfWeek.ordinal
-
-    for (i in 0..firstDayIndex) {
-        days.add(null)
+    if (firstDayIndex < 6) {
+        for (i in 0..firstDayIndex) {
+            days.add(null)
+        }
     }
     // 해당 월의 처음 빈 날짜 채우기
     for (i in 1..daysInMonth) {

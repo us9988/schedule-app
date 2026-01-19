@@ -36,7 +36,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             @OptIn(FlowPreview::class)
             _searchQuery
-                .debounce(400L)
+                .debounce(300L)
                 .map { it.trim() }
                 .distinctUntilChanged() // 이전 검색어와 같으면 무시
                 .collectLatest { query ->

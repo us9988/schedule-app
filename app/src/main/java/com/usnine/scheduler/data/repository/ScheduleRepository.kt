@@ -61,6 +61,7 @@ class ScheduleRepository @Inject constructor(
                 startDateString = dto.startDateString,
                 endDateString = dto.endDateString,
                 startDateMillis = LocalDate.parse(dto.startDateString).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                isRemote = true
             )
         }
         scheduleDao.insert(entities)
